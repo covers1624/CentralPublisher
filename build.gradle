@@ -1,0 +1,61 @@
+plugins {
+    id 'java'
+    id 'java-gradle-plugin'
+    id 'maven-publish'
+    id 'com.gradle.plugin-publish' version '1.2.1'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(8)
+    }
+    withSourcesJar()
+    withJavadocJar()
+}
+
+group = 'net.covers1624'
+version = '1.0'
+version = "$version." + (System.getenv("BUILD_NUMBER") ?: "1")
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    api gradleApi()
+    api 'org.apache.maven:maven-model:3.9.6'
+    api 'org.apache.httpcomponents:httpclient:4.5.14'
+    api 'org.apache.httpcomponents:httpmime:4.5.14'
+
+    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+gradlePlugin {
+    website = 'https://github.com/covers1624/CentralPublisher'
+    vcsUrl = 'https://github.com/covers1624/CentralPublisher'
+    plugins {
+        centralPublisher {
+            id = 'net.covers1624.centralpublisher'
+            displayName = "Central Publisher"
+            description = "Publishing to Maven Central via the Publish Portal API"
+            implementationClass = 'net.covers1624.gcp.GradleCentralPublisherPlugin'
+            tags.set(['publishing'])
+        }
+    }
+}
+
+publishing {
+    publications {
+        CentralPublisher(MavenPublication) {
+            groupId project.group
+            artifactId project.archivesBaseName
+            version project.version
+            from components.java
+        }
+    }
+}
