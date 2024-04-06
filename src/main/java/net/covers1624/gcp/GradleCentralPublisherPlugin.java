@@ -19,6 +19,7 @@ public class GradleCentralPublisherPlugin implements Plugin<Project> {
             t.setDescription("Publishes all configured publications to the maven central publisher portal.");
             t.setGroup(PublishingPlugin.PUBLISH_TASK_GROUP);
         });
+        project.getTasks().named(PublishingPlugin.PUBLISH_LIFECYCLE_TASK_NAME).configure(e -> e.dependsOn(CENTRAL_PUBLISH_LIFECYCLE));
         project.getExtensions().create("centralPublishing", CentralPublishExtension.class, project);
     }
 }
