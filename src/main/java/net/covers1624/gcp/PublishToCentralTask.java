@@ -43,7 +43,7 @@ public abstract class PublishToCentralTask extends DefaultTask {
         return publishingType;
     }
 
-    @Nested
+    @Internal
     public Property<PasswordCredentials> getCredentials() {
         return credentials;
     }
