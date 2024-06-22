@@ -66,7 +66,7 @@ public abstract class PublishToCentralTask extends DefaultTask {
             SimplePublicationValidator.validatePublication(normalPub);
             CentralPublisher.publish(normalPub, credentials, publishingType, getTemporaryDir().toPath());
         } catch (Throwable ex) {
-            throw new PublishException("Failed to publish " + normalPub.getName() + " to central publishing portal.");
+            throw new PublishException("Failed to publish " + normalPub.getName() + " to central publishing portal.", ex);
         }
     }
 
