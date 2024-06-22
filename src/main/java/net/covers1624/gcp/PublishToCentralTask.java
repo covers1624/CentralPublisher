@@ -38,6 +38,7 @@ public abstract class PublishToCentralTask extends DefaultTask {
         return publication.get();
     }
 
+    @Internal
     public Property<String> getPublishingType() {
         return publishingType;
     }
